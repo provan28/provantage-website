@@ -1,0 +1,10 @@
+node_modules/
+.next/
+out/
+.DS_Store
+*.tsbuildinfo
+Images/
+provantage-capital.html
+provantage_striped.png
+files.zip
+ChatGPT Image*
