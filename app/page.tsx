@@ -243,7 +243,10 @@ export default function Home() {
         <div className="hero-announcement">
           <span className="announcement-badge">New Partnership</span>
           <span className="announcement-text">
-            Provantage is the Official Accounting Partner of Send, Inc., a private cryptocurrency wallet
+            Official Partner of Send, Inc., a private cryptocurrency wallet
+          </span>
+          <span className="announcement-text-short">
+            Send, Inc. — Crypto Wallet
           </span>
           <a href="https://send.it" target="_blank" rel="noopener noreferrer" className="announcement-link">
             Visit Send.it &rarr;

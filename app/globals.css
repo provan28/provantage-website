@@ -134,6 +134,13 @@ body { font-family: var(--font-body); color: var(--gray-800); line-height: 1.6; 
   font-weight: 400;
   white-space: nowrap;
 }
+.announcement-text-short {
+  display: none;
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 400;
+  white-space: nowrap;
+}
 .announcement-link {
   font-size: 13px;
   font-weight: 600;
@@ -290,15 +297,15 @@ body { font-family: var(--font-body); color: var(--gray-800); line-height: 1.6; 
   .hero-dots { bottom: 24px; }
   .hero-announcement {
     bottom: 56px;
-    flex-direction: column;
-    gap: 8px;
-    border-radius: 12px;
-    padding: 12px 20px;
-    width: calc(100% - 40px);
-    text-align: center;
+    gap: 10px;
+    border-radius: 100px;
+    padding: 8px 18px;
+    width: auto;
+    max-width: calc(100% - 40px);
   }
-  .announcement-text { white-space: normal; font-size: 12.5px; }
-  .announcement-link { font-size: 12.5px; }
+  .announcement-text { font-size: 12px; display: none; }
+  .announcement-text-short { display: inline; font-size: 12px; color: rgba(255, 255, 255, 0.85); }
+  .announcement-link { font-size: 12px; }
 
   /* Sections */
   .section { padding: 64px 20px; }
