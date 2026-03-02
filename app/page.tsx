@@ -243,7 +243,7 @@ export default function Home() {
         <div className="hero-announcement">
           <span className="announcement-badge">New Partnership</span>
           <span className="announcement-text">
-            Official Partner of Send, Inc., a private cryptocurrency wallet
+            Accounting Partner of Send, Inc., a private cryptocurrency wallet
           </span>
           <span className="announcement-text-short">
             Send, Inc. — Crypto Wallet
