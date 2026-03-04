@@ -54,9 +54,6 @@ export default function Home() {
             <li>
               <a href="#about">About</a>
             </li>
-            <li>
-              <a href="#team">Team</a>
-            </li>
             <li className="dropdown">
               <a href="#services">Services</a>
               <div className="dropdown-menu">
@@ -104,6 +101,9 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+            </li>
+            <li>
+              <a href="#team">Team</a>
             </li>
             <li>
               <a href="#contact">Contact</a>
