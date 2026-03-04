@@ -342,56 +342,6 @@ export default function Home() {
       </section>
 
       {/* TEAM */}
-      <section className="section" id="team">
-        <div className="section-inner">
-          <p className="section-label">Our Team</p>
-          <h2 className="section-heading">
-            The People Behind
-            <br />
-            Provantage
-          </h2>
-          <p className="section-sub">
-            A team of advisors, accountants and strategists dedicated to
-            helping you keep more of your money.
-          </p>
-          <div className="team-grid">
-            {[
-              { name: "Bill Barth", role: "Advisory", photo: "/bill-barth.png" },
-              { name: "Jonathan Whitmore", role: "Advisory", photo: "/jonathan-whitmore.png" },
-              { name: "Michael Rosenburg", role: "Advisory", photo: "/michael-rosenburg.png" },
-              { name: "George Boudaghians", role: "Accounting", photo: "/george-boudaghians.png" },
-              { name: "Kelly Petrovich", role: "Accounting", photo: "/kelly-petrovich.png" },
-              { name: "Michelle Hayes", role: "Accounting", photo: "/michelle-hayes.png" },
-              { name: "Ashley Macamay", role: "Accounting", photo: "/ashley-macamay.png" },
-              { name: "Steven Morales", role: "Accounting", photo: "/steven-morales.png" },
-              { name: "Rylee Fagan", role: "Client Engagement", photo: "/rylee-fagan.jpg" },
-              { name: "Michael Collins", role: "Client Engagement", shy: true },
-              { name: "Victoria Barth", role: "Operations", photo: "/victoria-barth.png" },
-              { name: "Greg Zschaschel", role: "Operations", photo: "/greg-zschaschel.png" },
-            ].map((member) => (
-              <div className="team-card" key={member.name}>
-                {member.photo ? (
-                  <div className="team-photo" style={{
-                    backgroundImage: `url('${member.photo}')`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center top",
-                  }}></div>
-                ) : member.shy ? (
-                  <div className="team-photo team-photo-shy">
-                    <span className="shy-emoji">404</span>
-                    <span className="shy-text">Not found</span>
-                  </div>
-                ) : (
-                  <div className="team-photo"></div>
-                )}
-                <h4>{member.name}</h4>
-                <p>{member.role}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* SERVICES */}
       <section className="section section-dark" id="services">
         <div className="section-inner">
@@ -656,6 +606,57 @@ export default function Home() {
                 strategy for artists, athletes and entertainment professionals.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* TEAM */}
+      <section className="section" id="team">
+        <div className="section-inner">
+          <p className="section-label">Our Team</p>
+          <h2 className="section-heading">
+            The People Behind
+            <br />
+            Provantage
+          </h2>
+          <p className="section-sub">
+            A team of advisors, accountants and strategists dedicated to
+            helping you keep more of your money.
+          </p>
+          <div className="team-grid">
+            {[
+              { name: "Bill Barth", role: "Advisory", photo: "/bill-barth.png" },
+              { name: "Jonathan Whitmore", role: "Advisory", photo: "/jonathan-whitmore.png" },
+              { name: "Michael Rosenburg", role: "Advisory", photo: "/michael-rosenburg.png" },
+              { name: "George Boudaghians", role: "Accounting", photo: "/george-boudaghians.png" },
+              { name: "Kelly Petrovich", role: "Accounting", photo: "/kelly-petrovich.png" },
+              { name: "Michelle Hayes", role: "Accounting", photo: "/michelle-hayes.png" },
+              { name: "Ashley Macamay", role: "Accounting", photo: "/ashley-macamay.png" },
+              { name: "Steven Morales", role: "Accounting", photo: "/steven-morales.png" },
+              { name: "Rylee Fagan", role: "Client Engagement", photo: "/rylee-fagan.jpg" },
+              { name: "Michael Collins", role: "Client Engagement", shy: true },
+              { name: "Victoria Barth", role: "Operations", photo: "/victoria-barth.png" },
+              { name: "Greg Zschaschel", role: "Operations", photo: "/greg-zschaschel.png" },
+            ].map((member) => (
+              <div className="team-card" key={member.name}>
+                {member.photo ? (
+                  <div className="team-photo" style={{
+                    backgroundImage: `url('${member.photo}')`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center top",
+                  }}></div>
+                ) : member.shy ? (
+                  <div className="team-photo team-photo-shy">
+                    <span className="shy-emoji">404</span>
+                    <span className="shy-text">Not found</span>
+                  </div>
+                ) : (
+                  <div className="team-photo"></div>
+                )}
+                <h4>{member.name}</h4>
+                <p>{member.role}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
