@@ -826,8 +826,8 @@ export default function Home() {
                     phone number provided. Message &amp; data rates may apply.
                     Message frequency varies. Reply <strong>STOP</strong> to
                     unsubscribe or <strong>HELP</strong> for help. View our{" "}
-                    <a href="#">Terms of Service</a> and{" "}
-                    <a href="#">Privacy Policy</a>.
+                    <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a> and{" "}
+                    <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
                   </label>
                 </div>
                 <div className="checkbox-group">
@@ -965,8 +965,8 @@ export default function Home() {
               <p>
                 For more information about how we collect, use and protect your
                 personal data, please review our{" "}
-                <a href="#">Privacy Policy</a> and{" "}
-                <a href="#">Terms of Use</a>.
+                <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a> and{" "}
+                <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Use</a>.
               </p>
             </div>
           </div>
