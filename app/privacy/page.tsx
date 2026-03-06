@@ -18,7 +18,6 @@ export default function PrivacyPolicy() {
               width={200}
               height={36}
               className="nav-logo-img"
-              priority
             />
           </Link>
           <Link href="/" style={{ color: "rgba(255,255,255,0.7)", fontWeight: 500, fontSize: 14, textDecoration: "none" }}>
