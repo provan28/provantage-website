@@ -9,29 +9,30 @@ export const metadata = {
 export default function PrivacyPolicy() {
   return (
     <>
-      <header className="nav">
+      <nav className="nav" style={{ background: "var(--navy)" }}>
         <div className="nav-inner">
           <Link href="/" className="nav-logo">
             <Image
-              src="/provantage_logo_darkblue.png"
+              src="/provantage_logo.png"
               alt="Provantage"
-              width={180}
-              height={32}
-              style={{ height: 32, width: "auto" }}
+              width={200}
+              height={36}
+              className="nav-logo-img"
+              priority
             />
           </Link>
-          <Link href="/" style={{ color: "var(--navy)", fontWeight: 500, fontSize: 14 }}>
+          <Link href="/" style={{ color: "rgba(255,255,255,0.7)", fontWeight: 500, fontSize: 14, textDecoration: "none" }}>
             &larr; Back to Home
           </Link>
         </div>
-      </header>
+      </nav>
 
       <section className="section section-cream" style={{ paddingTop: 120 }}>
         <div className="section-inner" style={{ maxWidth: 860 }}>
           <p className="section-label">Legal</p>
           <h1 className="section-heading">Privacy Policy</h1>
           <p style={{ color: "var(--text-light)", marginBottom: 40 }}>
-            Effective Date: March 1, 2026 &nbsp;|&nbsp; Last Updated: March 1, 2026
+            Effective Date: January 5, 2021 &nbsp;|&nbsp; Last Updated: January 5, 2021
           </p>
 
           <div className="legal-content">
