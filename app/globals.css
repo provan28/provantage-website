@@ -248,6 +248,10 @@ body { font-family: var(--font-body); color: var(--gray-800); line-height: 1.6; 
 .btn-submit { padding: 16px 40px; background: var(--navy); color: var(--white); font-family: var(--font-body); font-weight: 600; font-size: 13.5px; letter-spacing: 0.8px; text-transform: uppercase; border: none; border-radius: 5px; cursor: pointer; transition: all 0.25s; align-self: flex-start; }
 .btn-submit:hover { background: var(--navy-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(11,29,58,0.15); }
 
+/* Form validation error messages */
+.form-error { color: #c0392b; font-size: 12px; font-weight: 500; margin-top: 2px; }
+.form-group input.error, .form-group select.error, .form-group textarea.error { border-color: #c0392b; }
+
 /* ===== FOOTER ===== */
 .footer { background: var(--navy-deep); padding: 80px 40px 40px; border-top: 1px solid rgba(255,255,255,0.04); }
 .footer-inner { max-width: 1320px; margin: 0 auto; }

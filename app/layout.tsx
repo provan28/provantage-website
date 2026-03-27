@@ -30,6 +30,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
+      <head>
+        {/* Security: Content Security Policy — controls where resources can load from */}
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self'; frame-src 'none'; form-action 'self'; base-uri 'self'"
+        />
+        {/* Security: Prevent MIME-type sniffing */}
+        <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
+        {/* Security: Control referrer information sent to external sites */}
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
+      </head>
       <body>{children}</body>
     </html>
   );

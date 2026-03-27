@@ -1,7 +1,39 @@
 "use client";
 
-import { useState, useEffect, useCallback, FormEvent } from "react";
+import { useState, useEffect, useCallback, FormEvent, ChangeEvent } from "react";
 import Image from "next/image";
+
+// --- Input Sanitization (XSS / injection prevention) ---
+function sanitizeInput(value: string): string {
+  return value
+    .replace(/[<>]/g, "")          // Strip angle brackets (prevents HTML/script injection)
+    .replace(/javascript:/gi, "")  // Remove javascript: protocol
+    .replace(/on\w+=/gi, "")       // Remove inline event handlers (onerror=, onclick=, etc.)
+    .trim();
+}
+
+// --- Validation rules ---
+const FIELD_LIMITS = {
+  name: 100,
+  email: 254,
+  phone: 20,
+  company: 200,
+  message: 2000,
+} as const;
+
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= FIELD_LIMITS.email;
+}
+
+function isValidPhone(phone: string): boolean {
+  // Allow digits, spaces, dashes, parens, plus sign — nothing else
+  return /^[+\d\s()\-]{7,20}$/.test(phone);
+}
+
+function isValidName(name: string): boolean {
+  // Letters, spaces, hyphens, apostrophes, periods only
+  return /^[a-zA-Z\s'\-.]+$/.test(name) && name.length <= FIELD_LIMITS.name;
+}
 
 const heroImages = [
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80",
@@ -28,11 +60,97 @@ export default function Home() {
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
+  // --- Form state & validation ---
+  const [formData, setFormData] = useState({
+    fname: "",
+    lname: "",
+    email: "",
+    phone: "",
+    company: "",
+    service: "",
+    message: "",
+  });
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [submitCount, setSubmitCount] = useState(0);
+  const [lastSubmitTime, setLastSubmitTime] = useState(0);
+
+  // Sanitize on every keystroke
+  const handleFieldChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { id, value } = e.target;
+    const key = id as keyof typeof formData;
+    // Apply length limits
+    const limit = key === "fname" || key === "lname" ? FIELD_LIMITS.name
+      : key === "email" ? FIELD_LIMITS.email
+      : key === "phone" ? FIELD_LIMITS.phone
+      : key === "company" ? FIELD_LIMITS.company
+      : key === "message" ? FIELD_LIMITS.message
+      : 500;
+    const sanitized = sanitizeInput(value).slice(0, limit);
+    setFormData((prev) => ({ ...prev, [key]: sanitized }));
+    // Clear error on change
+    if (formErrors[key]) {
+      setFormErrors((prev) => { const next = { ...prev }; delete next[key]; return next; });
+    }
+  };
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    const errors: Record<string, string> = {};
+
+    // Client-side rate limiting — max 3 submissions per 60 seconds
+    const now = Date.now();
+    if (submitCount >= 3 && now - lastSubmitTime < 60000) {
+      alert("Too many submissions. Please wait a moment before trying again.");
+      return;
+    }
+
+    // Validate required fields
+    if (!formData.fname.trim()) errors.fname = "First name is required.";
+    else if (!isValidName(formData.fname)) errors.fname = "Please enter a valid first name.";
+
+    if (!formData.lname.trim()) errors.lname = "Last name is required.";
+    else if (!isValidName(formData.lname)) errors.lname = "Please enter a valid last name.";
+
+    if (!formData.email.trim()) errors.email = "Email is required.";
+    else if (!isValidEmail(formData.email)) errors.email = "Please enter a valid email address.";
+
+    if (!formData.phone.trim()) errors.phone = "Phone number is required.";
+    else if (!isValidPhone(formData.phone)) errors.phone = "Please enter a valid phone number.";
+
+    if (formData.company && formData.company.length > FIELD_LIMITS.company) {
+      errors.company = `Company name must be under ${FIELD_LIMITS.company} characters.`;
+    }
+
+    if (formData.message && formData.message.length > FIELD_LIMITS.message) {
+      errors.message = `Message must be under ${FIELD_LIMITS.message} characters.`;
+    }
+
+    // Reject if any unknown/suspicious patterns remain
+    const allValues = Object.values(formData).join(" ");
+    if (/<script|<\/script|javascript:|eval\(|document\./i.test(allValues)) {
+      alert("Invalid input detected. Please remove any special characters and try again.");
+      return;
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
+    // Track submission rate
+    if (now - lastSubmitTime > 60000) {
+      setSubmitCount(1);
+    } else {
+      setSubmitCount((c) => c + 1);
+    }
+    setLastSubmitTime(now);
+
     alert(
       "Thank you for your inquiry. A member of our team will be in touch shortly."
     );
+    // Reset form
+    setFormData({ fname: "", lname: "", email: "", phone: "", company: "", service: "", message: "" });
+    setFormErrors({});
   };
 
   return (
@@ -771,34 +889,39 @@ export default function Home() {
               </div>
             </div>
 
-            <form className="contact-form" onSubmit={handleSubmit}>
+            <form className="contact-form" onSubmit={handleSubmit} noValidate>
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="fname">First Name *</label>
-                  <input type="text" id="fname" required />
+                  <input type="text" id="fname" required maxLength={FIELD_LIMITS.name} autoComplete="given-name" value={formData.fname} onChange={handleFieldChange} />
+                  {formErrors.fname && <span className="form-error">{formErrors.fname}</span>}
                 </div>
                 <div className="form-group">
                   <label htmlFor="lname">Last Name *</label>
-                  <input type="text" id="lname" required />
+                  <input type="text" id="lname" required maxLength={FIELD_LIMITS.name} autoComplete="family-name" value={formData.lname} onChange={handleFieldChange} />
+                  {formErrors.lname && <span className="form-error">{formErrors.lname}</span>}
                 </div>
               </div>
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="email">Email Address *</label>
-                  <input type="email" id="email" required />
+                  <input type="email" id="email" required maxLength={FIELD_LIMITS.email} autoComplete="email" value={formData.email} onChange={handleFieldChange} />
+                  {formErrors.email && <span className="form-error">{formErrors.email}</span>}
                 </div>
                 <div className="form-group">
                   <label htmlFor="phone">Phone Number *</label>
-                  <input type="tel" id="phone" required />
+                  <input type="tel" id="phone" required maxLength={FIELD_LIMITS.phone} autoComplete="tel" value={formData.phone} onChange={handleFieldChange} />
+                  {formErrors.phone && <span className="form-error">{formErrors.phone}</span>}
                 </div>
               </div>
               <div className="form-group">
                 <label htmlFor="company">Company / Entity Name</label>
-                <input type="text" id="company" />
+                <input type="text" id="company" maxLength={FIELD_LIMITS.company} autoComplete="organization" value={formData.company} onChange={handleFieldChange} />
+                {formErrors.company && <span className="form-error">{formErrors.company}</span>}
               </div>
               <div className="form-group">
                 <label htmlFor="service">Service of Interest</label>
-                <select id="service" defaultValue="">
+                <select id="service" value={formData.service} onChange={handleFieldChange}>
                   <option value="">Select a service...</option>
                   <option value="tax">Tax Advisory</option>
                   <option value="accounting">Accounting</option>
@@ -813,7 +936,11 @@ export default function Home() {
                 <textarea
                   id="message"
                   placeholder="Tell us about your needs..."
+                  maxLength={FIELD_LIMITS.message}
+                  value={formData.message}
+                  onChange={handleFieldChange}
                 ></textarea>
+                {formErrors.message && <span className="form-error">{formErrors.message}</span>}
               </div>
 
               {/* SMS OPT-IN COMPLIANCE */}
